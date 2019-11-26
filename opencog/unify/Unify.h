@@ -107,7 +107,7 @@ public:
 		 * 1. at least one of them is a node
 		 * 2. none is a free variable (i.e. unfree or not a variable)
 		 *
-		 * Given these 2 assumptions fulfilled it will check whether
+		 * Given these 2 assumptions fulfilled, it will check whether
 		 * the 2 atoms are equal, and if there are not could there be
 		 * alpha equivalent (assuming they are variables).
 		 */
@@ -128,10 +128,14 @@ public:
 	// Pair of CHandles
 	typedef std::pair<CHandle, CHandle> CHandlePair;
 
-	// Partition block
+	// Partition block. A block is a set of CHandles that are
+	// hypothesized as being unifiable, that is there exists a
+	// substitution making them equal.
 	typedef std::set<CHandle> Block;
 
-	// Mapping from partition blocks to type
+	// Mapping from partition blocks to type. The type for now is the
+	// most specialized term of the block, till types are better
+	// supported.
 	typedef std::map<Block, CHandle> Partition;
 
 	// This is in fact a typed block but is merely named Block due to
@@ -688,6 +692,27 @@ private:
 	 * inherits rhs.
 	 */
 	bool inherit(const TypeSet& lhs, const TypeSet& rhs) const;
+
+	/**
+	 * Return true iff h (or ch) is a variable that is declared in
+	 * _variables.
+	 */
+	bool is_declared_variable(const Handle& h) const;
+	bool is_declared_variable(const CHandle& ch) const;
+
+	/**
+	 * Return true iff the given CHandle is a free variable and is
+	 * declared in _variables
+	 */
+	bool is_free_declared_variable(const CHandle& ch) const;
+	bool is_free_declared_variable(const Context& c, const Handle& h) const;
+
+	/**
+	 * Return true iff both nodes are satisfiable, which would be the
+	 * case if both are equal constants (either actual constants or
+	 * undeclared variables), or alpha-equivalent.
+	 */
+	bool is_node_satisfiable(const CHandle& lch, const CHandle& rch) const;
 };
 
 bool unifiable(const Handle& lhs, const Handle& rhs,
