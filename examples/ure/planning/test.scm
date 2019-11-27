@@ -15,10 +15,10 @@
        (InheritanceLink (stv 1 1)
          (ConceptNode "b")
          (ConceptNode "object"))
-       (EvaluationLink (stv 1 1)
+      (EvaluationLink (stv 1 1)
          (PredicateNode "on-table")
          (ConceptNode "a"))
-       (EvaluationLink (stv 1 1)
+      (EvaluationLink (stv 1 1)
          (PredicateNode "on-table")
          (ConceptNode "b"))
        (EvaluationLink (stv 1 1)
@@ -32,15 +32,17 @@
 		  (EvaluationLink 
 		    (PredicateNode "on")
 		    (ListLink
-		      (ConceptNode "a")
+		      (VariableNode "x")
 		      (ConceptNode "b")))))
 
-   ;(cog-bc rbs goal)
-   (cog-fc rbs init)
+   (display goal)
+   (cog-bc rbs goal)
+   ; (cog-bc rbs goal1)
+   ;(cog-fc rbs init)
 )
 
 (define rbs (ConceptNode "block-world"))
-(ure-set-maximum-iterations rbs 20)
+(ure-set-maximum-iterations rbs 200)
 (define result (compute))
 (display result)(newline)
 
