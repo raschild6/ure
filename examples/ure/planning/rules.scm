@@ -1,7 +1,9 @@
 (use-modules (opencog) (opencog exec))
 
-(define (action . args)
-	(let ((tmp (car args)))
+(define (action . args)		; build a "container" with 1: action, 2: args
+	(let
+		((tmp (car args)))	; car take the first obj in args (cdr take the second)
+		(display (cdr args))(newline)
    	tmp
    )
 )
@@ -58,8 +60,11 @@
 						(VariableNode "?ob"))
 					(EvaluationLink
 						(PredicateNode "on-table")
-						(VariableNode "?ob")))
+						(VariableNode "?ob"))
+				)
 			)
+			; name
+			(ConceptNode "dynamic-pickup-action")
 	   )
 	)
 )
@@ -234,7 +239,7 @@
       '()
       ;; Recursive case
       (append (gen-variables prefix (- n 1))
-              (list (gen-variable prefix (- n 1))))
+			(list (gen-variable prefix (- n 1))))
    )
 )
 
@@ -294,7 +299,7 @@
 
 
 (define (replace_in_bind bindlink arguments)
-	  (substitute-var (get-bindings bindlink arguments) bindlink))
+	(substitute-var (get-bindings bindlink arguments) bindlink))
 
 
 (define (add-to-rule-base bindlink name rbs)
@@ -306,6 +311,7 @@
    	rbs)
 )
 
+
 (define rbs (ConceptNode "block-world"))
 (add-to-rule-base pickup "pickup" rbs)
 (add-to-rule-base putdown "putdown" rbs)
@@ -314,7 +320,7 @@
 (add-to-rule-base (gen-conjunction-introduction-rule 1) "conj-1" rbs)
 (add-to-rule-base (gen-conjunction-introduction-rule 2) "conj-2" rbs)
 (add-to-rule-base (gen-conjunction-introduction-rule 3) "conj-3" rbs)
-;(add-to-rule-base (gen-conjunction-introduction-rule 4) "conj-4" rbs)
+(add-to-rule-base (gen-conjunction-introduction-rule 4) "conj-4" rbs)
 ;(add-to-rule-base (gen-conjunction-introduction-rule 5) "conj-5" rbs)
 ;(add-to-rule-base (gen-conjunction-introduction-rule 6) "conj-6" rbs)
 
@@ -325,4 +331,3 @@
 (add-to-rule-base (gen-conjunction-elemination-rule 4) "conj-elem-4" rbs)
 ;(add-to-rule-base (gen-conjunction-elemination-rule 5) "conj-elem-5" rbs)
 ;(add-to-rule-base (gen-conjunction-elemination-rule 6) "conj-elem-6" rbs)
-
