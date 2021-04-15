@@ -3,15 +3,55 @@
 (define (action . args)		; build a "container" with 1: action, 2: args
 	(let
 		((tmp (car args)))	; car take the first obj in args (cdr take the second)
+		(display "--- Preconditions:")(newline)
 		(display (cdr args))(newline)
+		(display "--- Effects:")(newline)
+		(display (car args))(newline)
+		tmp
+   )
+)
+
+
+(define (action_pickup . args)
+	(let
+		((tmp (car args)))
+		(display "-- Pickup")(newline)
+		(display (car args))(newline)
    	tmp
    )
 )
 
-(define pickup-action action)
-(define stack-action action)
-(define unstack-action action)
-(define putdown-action action)
+(define (action_stack . args)
+	(let
+		((tmp (car args)))
+		;(display "-- Stack")(newline)
+		;(display (car args))(newline)
+   	tmp
+   )
+)
+
+(define (action_unstack . args)
+	(let
+		((tmp (car args)))
+		(display "-- Unstack")(newline)
+		(display (car args))(newline)
+   	tmp
+   )
+)
+
+(define (action_putdown . args)
+	(let
+		((tmp (car args)))
+		(display "-- Putdown")(newline)
+		(display (car args))(newline)
+   	tmp
+   )
+)
+
+(define pickup-action action_pickup)
+(define stack-action action_stack)
+(define unstack-action action_unstack)
+(define putdown-action action_putdown)
 
 (define pickup 
 	(BindLink
@@ -41,18 +81,20 @@
 					(EvaluationLink
 						(PredicateNode "not-on-table")
 						(VariableNode "?ob"))
-					;(DeleteLink
-						;(EvaluationLink
-							;(PredicateNode "not-holding")
-							;(VariableNode "?ob")))
-					;(DeleteLink
-						;(EvaluationLink
-							;(PredicateNode "clear")
-							;(VariableNode "?ob")))
-					;(DeleteLink
-						;(EvaluationLink
-							;(PredicateNode "on-table")
-							;(VariableNode "?ob")))
+#|
+					(DeleteLink
+						(EvaluationLink
+							(PredicateNode "not-holding")
+							(VariableNode "?ob")))
+					(DeleteLink
+						(EvaluationLink
+							(PredicateNode "clear")
+							(VariableNode "?ob")))
+					(DeleteLink
+						(EvaluationLink
+							(PredicateNode "on-table")
+							(VariableNode "?ob")))
+|#
 				)
 				(AndLink ; precondition
 					(EvaluationLink
@@ -63,8 +105,6 @@
 						(VariableNode "?ob"))
 				)
 			)
-			; name
-			(ConceptNode "dynamic-pickup-action")
 	   )
 	)
 )
@@ -96,10 +136,12 @@
 					(EvaluationLink
 						(PredicateNode "not-holding")
 						(VariableNode "?ob"))
-					;(DeleteLink
-					;	(EvaluationLink
-					;		(PredicateNode "holding")
-					;		(VariableNode "?ob")))
+#|
+					(DeleteLink
+						(EvaluationLink
+							(PredicateNode "holding")
+							(VariableNode "?ob")))
+|#
 				)
 				(AndLink    ; precondition
 					(EvaluationLink
@@ -148,17 +190,19 @@
 					(EvaluationLink
 						(PredicateNode "not-clear")
 						(VariableNode "?underob"))
-					;(DeleteLink
-					;	(EvaluationLink
-					;		(PredicateNode "clear")
-					;		(VariableNode "?underob")))
-					;(DeleteLink
-					;	(EvaluationLink
-					;		(PredicateNode "holding")
-					;		(VariableNode "?ob")))
 					(EvaluationLink
 						(PredicateNode "not-holding")
 						(VariableNode "?ob")))
+#|
+					(DeleteLink
+						(EvaluationLink
+						 	(PredicateNode "clear")
+							(VariableNode "?underob")))
+					(DeleteLink
+						(EvaluationLink
+							(PredicateNode "holding")
+							(VariableNode "?ob")))
+|#
 				(AndLink ; preconditon
 					(EvaluationLink
 						(PredicateNode "clear")
